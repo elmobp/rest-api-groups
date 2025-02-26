@@ -16,15 +16,10 @@
   <BuildingBlocks>
     <ClaimsSchema>
       <!--Demo: Custom claims use in the solution -->
-      <ClaimType Id="loyaltyNumber">
-	      <DisplayName>Loyalty number</DisplayName>
-	      <DataType>string</DataType>
-	      <UserHelpText>The loyalty number return from the REST API</UserHelpText>
-	    </ClaimType>
-      <ClaimType Id="userLanguage">
-	      <DisplayName>User language</DisplayName>
-	      <DataType>string</DataType>
-	      <UserHelpText>The current user language to be sent to the REST API</UserHelpText>
+      <ClaimType Id="groups">
+	      <DisplayName>Groups</DisplayName>
+	      <DataType>stringCollection</DataType>
+	      <UserHelpText>Array of groups from the REST API</UserHelpText>
 	    </ClaimType>
       <ClaimType Id="normalizedEmail">
 	      <DisplayName>Normalized email</DisplayName>
@@ -96,22 +91,21 @@
 	<ClaimsProvider>
     <DisplayName>REST APIs</DisplayName>
     <TechnicalProfiles>
-      <!--Demo: this technical profile returns the loyalty number --> 
-	    <TechnicalProfile Id="REST-GetLoyaltyNumber">
-	      <DisplayName>Validate user input data and return loyaltyNumber claim</DisplayName>
+      <!--Fetch user groups from rest api: should return like ["group1","group2"] --> 
+	    <TechnicalProfile Id="REST-GetGroups">
+	      <DisplayName>Validate user input data and return groups claim</DisplayName>
 	      <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
 	      <Metadata>
+	      <!-- Change this to an external API try something like webhook.site as a demo -->
 	        <Item Key="ServiceUrl">http://your-app.azurewebsites.net/api/identity/loyalty</Item>
 	        <Item Key="AuthenticationType">None</Item>
 	        <Item Key="SendClaimsIn">Body</Item>
 	      </Metadata>
         <InputClaims>
-          <!--Demo: optional claims to be sent to the REST API-->
-          <InputClaim ClaimTypeReferenceId="userLanguage" PartnerClaimType="language" DefaultValue="{Culture:LCID}" />
           <InputClaim ClaimTypeReferenceId="objectId" />
         </InputClaims>
         <OutputClaims>
-          <OutputClaim ClaimTypeReferenceId="loyaltyNumber" />
+          <OutputClaim ClaimTypeReferenceId="groups" />
         </OutputClaims>
         <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
 	    </TechnicalProfile>
@@ -120,7 +114,7 @@
           checks whether the 'email' claim starts with the 'test'. If not, the REST API returns 
           the email in lower case format. --> 
 	    <TechnicalProfile Id="REST-ValidateEmail">
-	        <DisplayName>Validate user input data and return loyaltyNumber claim</DisplayName>
+	        <DisplayName>Validate user input data and return groups claim</DisplayName>
 	        <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
 	        <Metadata>
 	        <Item Key="ServiceUrl">http://your-app.azurewebsites.net/api/identity/validate</Item>
@@ -227,10 +221,10 @@
           </ClaimsExchanges>
         </OrchestrationStep>
 
-        <!--Demo: This step get the loyalty number -->
+        <!--Demo: This step get the groups -->
          <OrchestrationStep Order="7" Type="ClaimsExchange">
           <ClaimsExchanges>
-            <ClaimsExchange Id="RESTGetLoyaltyNumber" TechnicalProfileReferenceId="REST-GetLoyaltyNumber" />
+            <ClaimsExchange Id="RESTGeRGroups" TechnicalProfileReferenceId="REST-GetGroups" />
           </ClaimsExchanges>
         </OrchestrationStep>
 
@@ -242,4 +236,3 @@
 
   </UserJourneys>
 
-</TrustFrameworkPolicy>

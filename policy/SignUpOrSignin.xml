@@ -17,7 +17,7 @@
     <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
-      <Protocol Name="OpenIdConnect" />
+      <Protocol Name="SAML2" />
       <OutputClaims>
         <OutputClaim ClaimTypeReferenceId="displayName" />
         <OutputClaim ClaimTypeReferenceId="givenName" />
@@ -25,7 +25,7 @@
         <OutputClaim ClaimTypeReferenceId="email" />
         <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
         <OutputClaim ClaimTypeReferenceId="identityProvider" />
-        <OutputClaim ClaimTypeReferenceId="loyaltyNumber" />
+        <OutputClaim ClaimTypeReferenceId="groups" />
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>
