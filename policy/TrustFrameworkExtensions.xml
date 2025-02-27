@@ -109,28 +109,6 @@
         </OutputClaims>
         <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
 	    </TechnicalProfile>
-
-      <!--Demo: this technical validates the email address, by calling the REST API that 
-          checks whether the 'email' claim starts with the 'test'. If not, the REST API returns 
-          the email in lower case format. --> 
-	    <TechnicalProfile Id="REST-ValidateEmail">
-	        <DisplayName>Validate user input data and return groups claim</DisplayName>
-	        <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-	        <Metadata>
-	        <Item Key="ServiceUrl">http://your-app.azurewebsites.net/api/identity/validate</Item>
-	        <Item Key="AuthenticationType">None</Item>
-	        <Item Key="SendClaimsIn">Body</Item>
-	        </Metadata>
-	        <InputClaims>
-            <!--Demo: optional claims to be sent to the REST API-->
-	          <InputClaim ClaimTypeReferenceId="userLanguage" PartnerClaimType="language" DefaultValue="{Culture:LCID}" />
-	          <InputClaim ClaimTypeReferenceId="email" />
-	        </InputClaims>
-	        <OutputClaims>
-	          <OutputClaim ClaimTypeReferenceId="normalizedEmail" PartnerClaimType="email" />
-	        </OutputClaims>
-	        <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-	    </TechnicalProfile>      
     </TechnicalProfiles>
 	</ClaimsProvider>
  </ClaimsProviders>
@@ -224,7 +202,7 @@
         <!--Demo: This step get the groups -->
          <OrchestrationStep Order="7" Type="ClaimsExchange">
           <ClaimsExchanges>
-            <ClaimsExchange Id="RESTGeRGroups" TechnicalProfileReferenceId="REST-GetGroups" />
+            <ClaimsExchange Id="RESTGetGroups" TechnicalProfileReferenceId="REST-GetGroups" />
           </ClaimsExchanges>
         </OrchestrationStep>
 
